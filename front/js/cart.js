@@ -1,13 +1,13 @@
 const cart = JSON.parse(window.localStorage.getItem('cart')) || [];
 
 let request = new XMLHttpRequest()
-// Open a new connection, using the GET request on the URL endpoint
+// Open a new connection, using the GET request
 request.open('GET', 'http://localhost:3000/api/products/', true)
 
 function renderCartTotal(){
     let totalQuantity = 0;
     let totalPrice = 0;
-    cart.forEach((product, index) => {            
+    cart.forEach((product) => {            
 
     let productRecover = productData.find((el) => el._id === product.id);
     totalQuantity += Number(product.productQuantity)
@@ -20,10 +20,10 @@ function renderCartTotal(){
 }
 function updateCart (event, index){
     const newValue = event.target.value;
- console.log(newValue, index)
- cart[index].productQuantity = newValue;
- renderCartTotal();
- window.localStorage.setItem('cart', JSON.stringify(cart))
+    console.log(newValue, index)
+    cart[index].productQuantity = newValue;
+    renderCartTotal();
+    window.localStorage.setItem('cart', JSON.stringify(cart))
 
 }
 function renderCart(cart, data){
@@ -73,7 +73,7 @@ function renderCart(cart, data){
             const productColor = document.createElement('p')
             productColor.textContent = product.color
             const productPrice = document.createElement('p')
-            productPrice.innerHTML = productRecover.price
+            productPrice.innerHTML = '€' + productRecover.price
 
             itemContentDescrp.appendChild(productName)
             itemContentDescrp.appendChild(productColor)
@@ -135,6 +135,31 @@ request.onload = function () {
  
 request.send();
 
-
 console.log(cart);
+
+// validating the form
+const firstNameInput = document.getElementById('firstName')
+const firstNameErrorMsg = document.getElementById('firstNameErrorMsg')
+const LastNameInput = document.getElementById('lastName')
+const lastNameErrorMsg = document.getElementById('lastNameErrorMsg')
+const addressInput = document.getElementById('address')
+const addressErrorMsg = document.getElementById('addressErrorMsg')
+const cityInput = document.getElementById('city')
+const cityErrorMsg = document.getElementById('cityErrorMsg')
+const emailInput = document.getElementById('email')
+const emailErrorMsg = document.getElementById('emailErrorMsg')
+
+firstNameInput.addEventListener('input', ($event) => {
+    const regex = new RegExp([a-z]);
+    if($event.target.value !== regex){
+    firstNameErrorMsg.textContent = 'error, please enter your name in the right format'
+    }
+});
+
+
+
+
+
+
+
 
