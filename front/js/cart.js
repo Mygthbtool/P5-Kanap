@@ -140,7 +140,7 @@ console.log(cart);
 // validating the form
 const firstNameInput = document.getElementById('firstName')
 const firstNameErrorMsg = document.getElementById('firstNameErrorMsg')
-const LastNameInput = document.getElementById('lastName')
+const lastNameInput = document.getElementById('lastName')
 const lastNameErrorMsg = document.getElementById('lastNameErrorMsg')
 const addressInput = document.getElementById('address')
 const addressErrorMsg = document.getElementById('addressErrorMsg')
@@ -149,6 +149,7 @@ const cityErrorMsg = document.getElementById('cityErrorMsg')
 const emailInput = document.getElementById('email')
 const emailErrorMsg = document.getElementById('emailErrorMsg')
 
+//Checking the right input format for first name
 firstNameInput.addEventListener('input', ($event) => {
      const regex = /^[A-Za-z]*$/;
      let inputResult = regex.test($event.target.value)
@@ -159,6 +160,66 @@ firstNameInput.addEventListener('input', ($event) => {
         firstNameErrorMsg.style.display = 'none'; 
     }
 });
+
+//Checking the right input format for last name
+lastNameInput.addEventListener('input', ($event) => {
+    const regex = /^[A-Za-z]*$/;
+    let inputResult = regex.test($event.target.value)
+   if(inputResult == false){   
+   lastNameErrorMsg.textContent = 'error, please enter your name in the right format';
+   lastNameErrorMsg.style.display = 'inline';
+   }else{
+       lastNameErrorMsg.style.display = 'none'; 
+   }
+});
+
+//Checking the right input format for the address
+addressInput.addEventListener('input', ($event) => {
+    const regex = /^[\w',-\\/.\s]*$/;
+    let inputResult = regex.test($event.target.value)
+   if(inputResult == false){   
+    addressErrorMsg.textContent = 'error, please enter your address in the right format';
+    addressErrorMsg.style.display = 'inline';
+   }else{
+    addressErrorMsg.style.display = 'none'; 
+   }
+});
+
+//Checking the right input format for the city
+cityInput.addEventListener('input', ($event) => {
+    const regex = /^[A-Za-z]*$/;
+    let inputResult = regex.test($event.target.value)
+   if(inputResult == false){   
+    cityErrorMsg.textContent = 'error, please enter your city name in the right format';
+    cityErrorMsg.style.display = 'inline';
+   }else{
+    cityErrorMsg.style.display = 'none'; 
+   }
+});
+
+//Checking the right input format for the e-mail
+emailInput.addEventListener('input', ($event) => {
+    const regex = /\S+@\S+\.\S+/g;
+    let inputResult = regex.test($event.target.value)
+   if(inputResult == false){   
+    emailErrorMsg.textContent = 'error, please enter your email address in the right format';
+    emailErrorMsg.style.display = 'inline';
+   }else{
+    emailErrorMsg.style.display = 'none'; 
+   }
+});
+
+// Send data of the form to back-end when submitting the order
+
+const orderButton = document.getElementById('order')
+
+orderButton.addEventListener ('click', () => {
+    
+})
+
+
+
+
 
 
 
