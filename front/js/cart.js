@@ -150,9 +150,13 @@ const emailInput = document.getElementById('email')
 const emailErrorMsg = document.getElementById('emailErrorMsg')
 
 firstNameInput.addEventListener('input', ($event) => {
-    const regex = new RegExp([a-z]);
-    if($event.target.value !== regex){
-    firstNameErrorMsg.textContent = 'error, please enter your name in the right format'
+     const regex = /^[A-Za-z]*$/;
+     let inputResult = regex.test($event.target.value)
+    if(inputResult == false){   
+    firstNameErrorMsg.textContent = 'error, please enter your name in the right format';
+    firstNameErrorMsg.style.display = 'inline';
+    }else{
+        firstNameErrorMsg.style.display = 'none'; 
     }
 });
 
