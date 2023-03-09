@@ -137,7 +137,9 @@ request.send();
 
 console.log(cart);
 
-// validating the form
+/*---validating the form---*/
+
+// Get DOM elements
 const firstNameInput = document.getElementById('firstName')
 const firstNameErrorMsg = document.getElementById('firstNameErrorMsg')
 const lastNameInput = document.getElementById('lastName')
@@ -213,8 +215,8 @@ emailInput.addEventListener('input', ($event) => {
 
 const orderButton = document.getElementById('order')
 
-orderButton.addEventListener ('click', () => {
-    
+orderButton.addEventListener ('click', ($event) => {
+    $event.preventDefault();
 })
 
 
