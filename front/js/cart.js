@@ -42,7 +42,7 @@ function renderCart(cart, data){
             quantity: product.productQuantity,
             price: productRecover.price
            };          
-        
+        // Inserting selected items into the DOM
             const section = document.getElementById('cart__items');
 
             article = document.createElement('article');
@@ -115,7 +115,6 @@ function renderCart(cart, data){
         });  
         renderCartTotal();
         
-  
     }else {
         const errorMessage = document.createElement('behavior')
         errorMessage.textContent = `error, it's not working!`
@@ -214,10 +213,65 @@ emailInput.addEventListener('input', ($event) => {
 // Send data of the form to back-end when submitting the order
 
 const orderButton = document.getElementById('order')
-
+orderButton.setAttribute('href', './confirmation.html')
+// Add eventListener to order button
 orderButton.addEventListener ('click', ($event) => {
     $event.preventDefault();
-})
+    const contactForm = {
+        firstName : firstNameInput.value,
+        lastName: lastNameInput.value,
+        address : addressInput.value,
+        city : cityInput.value,
+        email : emailInput.value
+       };
+          
+       let productToOrder = cart.map(product => product.id);
+    
+    
+  submitFormData();
+});
+
+const contactForm = {
+    firstName : firstNameInput.value,
+    lastName: lastNameInput.value,
+    address : addressInput.value,
+    city : cityInput.value,
+    email : emailInput.value
+   };
+      
+   let productToOrder = cart.map(product => product.id);
+
+console.log(productToOrder)
+function makeRequest(productToOrder, contactForm) {
+    return new Promise((resolve, reject) => {
+      let request = new XMLHttpRequest();
+      request.open('POST', 'http://localhost:3000/api/products/order');
+      request.onreadystatechange = () => {
+        if (request.readyState === 4) {
+          if (request.status >= 200 && request.status < 400) {
+            resolve(JSON.parse(request.response));
+          } else {
+            reject(JSON.parse(request.response));
+          }
+        }
+      };
+      request.setRequestHeader('Content-Type', 'application/json');
+      request.send(JSON.stringify({productToOrder, contactForm}));
+    });
+  }
+
+  async function submitFormData(productToOrder, contactForm) {
+    try { 
+      const requestPromise = makeRequest(productToOrder, contactForm);
+      const response = await requestPromise;
+      return response;
+    }catch {
+        errorMessage;
+        errorMessage.textContent = 'error, it is not working!';
+        window.alert(errorMessage);
+    }
+}
+
 
 
 
