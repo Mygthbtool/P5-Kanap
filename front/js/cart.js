@@ -213,7 +213,8 @@ emailInput.addEventListener('input', ($event) => {
 // Send data of the form to back-end when submitting the order
 
 const orderButton = document.getElementById('order')
-orderButton.setAttribute('href', './confirmation.html')
+let orderId = '';
+
 // Add eventListener to order button
 orderButton.addEventListener ('click', ($event) => {
     $event.preventDefault();
@@ -226,23 +227,13 @@ orderButton.addEventListener ('click', ($event) => {
        };
           
        let productToOrder = cart.map(product => product.id);
-    
-    
-  submitFormData();
+        console.log(productToOrder);
+
+   submitFormData(productToOrder, contactForm);
 });
 
-const contactForm = {
-    firstName : firstNameInput.value,
-    lastName: lastNameInput.value,
-    address : addressInput.value,
-    city : cityInput.value,
-    email : emailInput.value
-   };
-      
-   let productToOrder = cart.map(product => product.id);
 
-console.log(productToOrder)
-function makeRequest(productToOrder, contactForm) {
+function makeRequest(data) {
     return new Promise((resolve, reject) => {
       let request = new XMLHttpRequest();
       request.open('POST', 'http://localhost:3000/api/products/order');
@@ -256,19 +247,22 @@ function makeRequest(productToOrder, contactForm) {
         }
       };
       request.setRequestHeader('Content-Type', 'application/json');
-      request.send(JSON.stringify({productToOrder, contactForm}));
+      console.log(data);
+      request.send(JSON.stringify(data));
     });
   }
 
   async function submitFormData(productToOrder, contactForm) {
     try { 
-      const requestPromise = makeRequest(productToOrder, contactForm);
+      const requestPromise = makeRequest({contact: contactForm, products: productToOrder});
       const response = await requestPromise;
-      return response;
-    }catch {
-        errorMessage;
-        errorMessage.textContent = 'error, it is not working!';
-        window.alert(errorMessage);
+      const responseOrderId = response.orderId;
+      localStorage.clear();
+      location.href = './confirmation.html?' + responseOrderId
+      console.log(responseOrderId);
+      
+    }catch(errorResponse) {
+      console.log(errorResponse);
     }
 }
 
