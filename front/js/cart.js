@@ -229,7 +229,11 @@ orderButton.addEventListener ('click', ($event) => {
        let productToOrder = cart.map(product => product.id);
         console.log(productToOrder);
 
-   submitFormData(productToOrder, contactForm);
+       if (cart.length === 0){
+        alert('your cart is empty, please select at least one item')
+       }else{
+        submitFormData(productToOrder, contactForm);
+        }
 });
 
 
@@ -247,7 +251,6 @@ function makeRequest(data) {
         }
       };
       request.setRequestHeader('Content-Type', 'application/json');
-      console.log(data);
       request.send(JSON.stringify(data));
     });
   }
@@ -257,10 +260,12 @@ function makeRequest(data) {
       const requestPromise = makeRequest({contact: contactForm, products: productToOrder});
       const response = await requestPromise;
       const responseOrderId = response.orderId;
+
       localStorage.clear();
-      location.href = './confirmation.html?' + responseOrderId
+
+      location.href = './confirmation.html?orderId=' + responseOrderId
       console.log(responseOrderId);
-      
+
     }catch(errorResponse) {
       console.log(errorResponse);
     }
