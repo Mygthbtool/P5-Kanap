@@ -18,7 +18,7 @@ function renderCartTotal(){
     document.getElementById('totalPrice').innerHTML = totalPrice;
 
 }
-function updateCart (event, index){
+function updateCart(event, index){
     const newValue = event.target.value;
     console.log(newValue, index)
     cart[index].productQuantity = newValue;
@@ -110,7 +110,10 @@ function renderCart(cart, data){
             deleteProduct.classList.add('deleteItem')
             deleteProduct.textContent = 'Delete'
             itemContentSettingsDelete.appendChild(deleteProduct)
-                                        
+            
+            deleteProduct.addEventListener('click', () => {
+                localStorage.removeItem(deleteProduct.closest("article"));
+            });
             
         });  
         renderCartTotal();
@@ -236,7 +239,7 @@ orderButton.addEventListener ('click', ($event) => {
         }
 });
 
-
+// make function for the POST request
 function makeRequest(data) {
     return new Promise((resolve, reject) => {
       let request = new XMLHttpRequest();
@@ -255,6 +258,7 @@ function makeRequest(data) {
     });
   }
 
+  // Getting data from back end before displaying them in the DOM
   async function submitFormData(productToOrder, contactForm) {
     try { 
       const requestPromise = makeRequest({contact: contactForm, products: productToOrder});
