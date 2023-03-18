@@ -1,4 +1,4 @@
-const cart = JSON.parse(window.localStorage.getItem('cart')) || [];
+let cart = JSON.parse(window.localStorage.getItem('cart')) || [];
 
 let request = new XMLHttpRequest()
 // Open a new connection, using the GET request
@@ -18,6 +18,30 @@ function renderCartTotal(){
     document.getElementById('totalPrice').innerHTML = totalPrice;
 
 }
+
+function deleteArticle() {
+  let btnDelete = document.querySelectorAll(".deleteItem");
+  btnDelete.forEach((target) => {
+      let article = target.closest("article");
+      let id = article.dataset.id;
+      let color = article.dataset.color;
+      target.addEventListener("click" , () => {
+
+          //Selection de l'element à supprimer en fonction de son id ET sa couleur
+          //cart = cart.filter((element) => element.id !== id || element.color !== color );
+          delete id;
+          delete color;
+        
+          // mise à jour du localstorage
+          //localStorage.setItem("cart", JSON.stringify(cart));
+          
+          //Alerte produit supprimé
+          // alert("Ce produit a bien été supprimé du panier");
+          // document.location.reload();
+      })
+  })
+}
+
 function updateCart(event, index){
     const newValue = event.target.value;
     console.log(newValue, index)
@@ -33,6 +57,7 @@ function renderCart(cart, data){
        cart.forEach((product, index) => {            
         // Method to find back product's proprieties which are not passed by localStorage
            let productRecover = data.find((el) => el._id === product.id);
+           
            let article = {
             name: productRecover.name,
             color: product.color,
@@ -111,13 +136,14 @@ function renderCart(cart, data){
             deleteProduct.textContent = 'Delete'
             itemContentSettingsDelete.appendChild(deleteProduct)
             
-            deleteProduct.addEventListener('click', () => {
-                localStorage.removeItem(deleteProduct.closest("article"));
-            });
+            
+                
+            
             
         });  
-        renderCartTotal();
         
+        deleteArticle();
+        renderCartTotal();
     }else {
         const errorMessage = document.createElement('behavior')
         errorMessage.textContent = `error, it's not working!`
