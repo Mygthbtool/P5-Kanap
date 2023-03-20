@@ -19,36 +19,30 @@ function renderCartTotal(){
 
 }
 
-function deleteArticle() {
-  let btnDelete = document.querySelectorAll(".deleteItem");
-  btnDelete.forEach((target) => {
-      let article = target.closest("article");
-      let id = article.dataset.id;
-      let color = article.dataset.color;
-      target.addEventListener("click" , () => {
+function removeItem (id, color){  
+  console.log('hello', id, color)
+  for (let i = 0; i < cart.length; i++){
+    if(cart[i].id === id && cart[i].color === color){
+      cart.splice(i, 1)
+      window.localStorage.setItem('cart', JSON.stringify(cart))
 
-          //Selection de l'element à supprimer en fonction de son id ET sa couleur
-          //cart = cart.filter((element) => element.id !== id || element.color !== color );
-          delete id;
-          delete color;
-        
-          // mise à jour du localstorage
-          //localStorage.setItem("cart", JSON.stringify(cart));
-          
-          //Alerte produit supprimé
-          // alert("Ce produit a bien été supprimé du panier");
-          // document.location.reload();
-      })
-  })
+      return
+    }
+  }
 }
 
-function updateCart(event, index){
+function updateCart(event, id, color){
     const newValue = event.target.value;
-    console.log(newValue, index)
-    cart[index].productQuantity = newValue;
-    renderCartTotal();
-    window.localStorage.setItem('cart', JSON.stringify(cart))
-
+    for (let i = 0; i < cart.length; i++){
+      if(cart[i].id === id && cart[i].color === color){
+        cart[i].productQuantity = newValue;
+        renderCartTotal();
+        window.localStorage.setItem('cart', JSON.stringify(cart))
+    
+        return
+      }
+    }
+  
 }
 function renderCart(cart, data){
     
@@ -57,7 +51,7 @@ function renderCart(cart, data){
        cart.forEach((product, index) => {            
         // Method to find back product's proprieties which are not passed by localStorage
            let productRecover = data.find((el) => el._id === product.id);
-           
+
            let article = {
             name: productRecover.name,
             color: product.color,
@@ -72,8 +66,8 @@ function renderCart(cart, data){
 
             article = document.createElement('article');
             article.classList.add('cart__item');
-            article.setAttribute('data-id', "{product-ID}")
-            article.setAttribute('data-color', "{product-color}")
+            article.setAttribute('data-id', product.id)
+            article.setAttribute('data-color', product.color)
             section.appendChild(article)
 
             const divImage = document.createElement('div')
@@ -124,7 +118,7 @@ function renderCart(cart, data){
             productQuantity.setAttribute('max', "100")
             productQuantity.setAttribute('value', '')
             productQuantity.value = product.productQuantity
-            productQuantity.addEventListener('change', (event) => updateCart(event, index))
+            productQuantity.addEventListener('change', (event) => updateCart(event, product.id, product.color))
             itemContentSettingsQty.appendChild(productQuantity)
 
             const itemContentSettingsDelete = document.createElement('div')
@@ -136,13 +130,31 @@ function renderCart(cart, data){
             deleteProduct.textContent = 'Delete'
             itemContentSettingsDelete.appendChild(deleteProduct)
             
-            
+            deleteProduct.addEventListener("click" , () => {
+               let targetArticle = deleteProduct.closest("article");
+               let id = targetArticle.dataset.id;
+               let color = targetArticle.dataset.color;
+              removeItem(id, color);
+              
+              targetArticle.remove();
+              renderCartTotal();
+              //Selecting product to delete by his id and color 
+              //cart = cart.filter((product) => product.id !== id || product.color !== color );
+              
+              // updating localstorage
+              //localStorage.setItem("cart", JSON.stringify(cart));
+             
+              
+              //Alert product removed
+              // alert("This product has been succefully removed");
+              // document.location.reload();
+          })
                 
             
             
         });  
         
-        deleteArticle();
+       
         renderCartTotal();
     }else {
         const errorMessage = document.createElement('behavior')
