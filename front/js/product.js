@@ -1,9 +1,10 @@
 // Get url param through product id
 const urlParams = new URLSearchParams(window.location.search);
-const productId = urlParams.get('id')
+const productId = urlParams.get('id');
 console.log(productId);
 
-let request = new XMLHttpRequest()
+let request = new XMLHttpRequest();
+
 const cart = JSON.parse(window.localStorage.getItem('cart')) || [];
 
 // Open a new connection, using the GET request on the URL endpoint
@@ -20,6 +21,7 @@ request.onload = function () {
         const image = document.createElement('img');
         image.src = data.imageUrl;
         image.alt = data.altTxt;
+
         //getting data of colors from the back-end
         const color = document.getElementById("colors");
         const allColors = data.colors;
@@ -42,9 +44,9 @@ request.onload = function () {
         }
         
     } else {
-        const errorMessage = document.createElement('behavior')
-        errorMessage.textContent = `Gah, it's not working!`
-        allProducts.appendChild(errorMessage)
+        const errorMessage = document.createElement('behavior');
+        errorMessage.textContent = `Gah, it's not working!`;
+        allProducts.appendChild(errorMessage);
     }
     
 };
@@ -52,6 +54,7 @@ request.onload = function () {
 // Send request
 request.send();
 
+//Get DOM elements
 const addToCartButton = document.getElementById("addToCart");
 let colorDropDown = document.getElementById('colors');
 let productColor = document.getElementsByTagName('option');
@@ -61,13 +64,14 @@ colorDropDown.appendChild(productColor[0]);
 
 //add change eventlistner to choose color from dropDown Menu
 colorDropDown.addEventListener ('change', ($event) => {
+
     productColor.textContent = $event.target.value;
 })
 
 //add input eventlistner to put quatity 
 productQuantity.addEventListener ('input', ($event) => {
 
-        productQuantity.textContent =  $event.target.value;    
+     productQuantity.textContent =  $event.target.value;    
 });
 
 //add click eventlistener for addTocartButton
@@ -76,6 +80,7 @@ addToCartButton.addEventListener ('click', () => {
     const selectedQuantity = Number(productQuantity.value);
     const selectedColor = productColor.textContent; 
 
+    //Make condition to limit quantity between 1 and  100    
     if(!selectedColor){
         alert("select color");
         return;
@@ -84,8 +89,9 @@ addToCartButton.addEventListener ('click', () => {
     if(selectedQuantity < 1 || selectedQuantity > 100){
         alert('select quantity between 1 and 100')
         return;
-     }   
+    }  
 
+    // Incrementing quantity of an item  with same id and color
     const existingIndex = cart.findIndex((cartProduct) => 
         cartProduct.id === productId && cartProduct.color === selectedColor);
 
@@ -99,9 +105,7 @@ addToCartButton.addEventListener ('click', () => {
     }
   
     window.localStorage.setItem('cart', JSON.stringify(cart))
-              
-        //console.log(localStorage);
-    
+                 
 });
 
 console.log(cart);

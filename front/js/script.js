@@ -1,37 +1,49 @@
-/**const allProducts = document.getElementById('items');
-
-let postRequest = new XMLHttpRequest();
-postRequest.open('GET', 'http://localhost:3000/api/products/');
 
 
-postRequest.onreadystatechange = () => {
-    const response = JSON.parse(postRequest.response);
-   if (postRequest.readyState === 4) {
-    data.forEach(() => { 
-        let card =  document.createElement('a');
-        card.setAttribute = ('href', '_id')
+// let postRequest = new XMLHttpRequest();
+// postRequest.open('GET', 'http://localhost:3000/api/products/');
+  
+// let data = JSON.parse(postRequest.response);
+//   
 
-        let article = document.createElement('article');
-        let image = document.createElement('img');
-        let name = document.createElement('h3');
-        let description = document.createElement('p');
-         
-        
-        image = response['imageUrl'];
-        name.textContent = response['name'];
-        description.textContent = response['description'];
-        
+//      if (postRequest.status >= 200 && postRequest.status < 400) {
+//         
 
-        allProducts.appendChild(card);
-        card.appendChild(article);
-        article.appendChild(image);
-        article.appendChild(name);
-        article.appendChild(description);
-    })               
-   } 
-};
+//         for (let product of allProducts { 
+//             const allProducts = document.getElementById('items');
+           
+//             let card =  document.createElement('a');
+//             card.setAttribute = ('href', './product.html?id=' + product._id)
 
-postRequest.send();**/
+//             let article = document.createElement('article');
+//             let image = document.createElement('img');
+//             let name = document.createElement('h3');
+//             let description = document.createElement('p');
+            
+            
+//             image.src = product.imageUrl;
+//             name.textContent = product.name;
+//             description.textContent = product.description;
+            
+
+//             allProducts.appendChild(card);
+//             card.appendChild(article);
+//             article.appendChild(image);
+//             article.appendChild(name);
+//             article.appendChild(description);
+
+            
+//             allProducts.push(product[i]);  
+
+//             console.log(product.name);
+//         }  
+            //return
+       
+//     } 
+          
+//  
+
+// postRequest.send();
 
 //-----------------------------------------------------------------------
 const allProducts = document.getElementById('items');
@@ -47,7 +59,7 @@ request.onload = function () {
 
     if (request.status >= 200 && request.status < 400) {
         data.forEach((product) => {
-            // Create a anchorLink with a href attribute
+            // Create an anchorLink with a href attribute
             const card = document.createElement('a')
             card.setAttribute('href', './product.html?id=' + product._id)
             //create an article tag as a block for the card
@@ -68,6 +80,7 @@ request.onload = function () {
             // Append the cards to the section element
             allProducts.appendChild(card)
             card.appendChild(article)
+
             // Each article will contain an image,name and a description
             article.appendChild(image)
             article.appendChild(name)

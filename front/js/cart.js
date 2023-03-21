@@ -4,9 +4,11 @@ let request = new XMLHttpRequest()
 // Open a new connection, using the GET request
 request.open('GET', 'http://localhost:3000/api/products/', true)
 
+//function to render through total qty and total price
 function renderCartTotal(){
     let totalQuantity = 0;
     let totalPrice = 0;
+
     cart.forEach((product) => {            
 
     let productRecover = productData.find((el) => el._id === product.id);
@@ -18,7 +20,7 @@ function renderCartTotal(){
     document.getElementById('totalPrice').innerHTML = totalPrice;
 
 }
-
+ //function to remove item from cart
 function removeItem (id, color){  
   console.log('hello', id, color)
   for (let i = 0; i < cart.length; i++){
@@ -31,6 +33,7 @@ function removeItem (id, color){
   }
 }
 
+// function to update cart total when quantity of a product is changed
 function updateCart(event, id, color){
     const newValue = event.target.value;
     for (let i = 0; i < cart.length; i++){
@@ -44,11 +47,12 @@ function updateCart(event, id, color){
     }
   
 }
+
 function renderCart(cart, data){
     
     if (request.status >= 200 && request.status < 400) {
        // Loop to post all the products in the cart
-       cart.forEach((product, index) => {            
+       cart.forEach((product) => {            
         // Method to find back product's proprieties which are not passed by localStorage
            let productRecover = data.find((el) => el._id === product.id);
 
@@ -138,16 +142,7 @@ function renderCart(cart, data){
               
               targetArticle.remove();
               renderCartTotal();
-              //Selecting product to delete by his id and color 
-              //cart = cart.filter((product) => product.id !== id || product.color !== color );
               
-              // updating localstorage
-              //localStorage.setItem("cart", JSON.stringify(cart));
-             
-              
-              //Alert product removed
-              // alert("This product has been succefully removed");
-              // document.location.reload();
           })
                 
             
