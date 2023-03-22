@@ -1,51 +1,6 @@
-
-
-// let postRequest = new XMLHttpRequest();
-// postRequest.open('GET', 'http://localhost:3000/api/products/');
-  
-// let data = JSON.parse(postRequest.response);
-//   
-
-//      if (postRequest.status >= 200 && postRequest.status < 400) {
-//         
-
-//         for (let product of allProducts { 
-//             const allProducts = document.getElementById('items');
-           
-//             let card =  document.createElement('a');
-//             card.setAttribute = ('href', './product.html?id=' + product._id)
-
-//             let article = document.createElement('article');
-//             let image = document.createElement('img');
-//             let name = document.createElement('h3');
-//             let description = document.createElement('p');
-            
-            
-//             image.src = product.imageUrl;
-//             name.textContent = product.name;
-//             description.textContent = product.description;
-            
-
-//             allProducts.appendChild(card);
-//             card.appendChild(article);
-//             article.appendChild(image);
-//             article.appendChild(name);
-//             article.appendChild(description);
-
-            
-//             allProducts.push(product[i]);  
-
-//             console.log(product.name);
-//         }  
-            //return
-       
-//     } 
-          
-//  
-
-// postRequest.send();
-
 //-----------------------------------------------------------------------
+
+// Get DOM element by its Id
 const allProducts = document.getElementById('items');
 // Create a request variable and assign a new XMLHttpRequest object to it.
 let request = new XMLHttpRequest()
