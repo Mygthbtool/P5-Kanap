@@ -1,7 +1,9 @@
+//Get cart data from local Storage as JSON
 let cart = JSON.parse(window.localStorage.getItem('cart')) || [];
 
-let request = new XMLHttpRequest()
 // Open a new connection, using the GET request
+let request = new XMLHttpRequest()
+
 request.open('GET', 'http://localhost:3000/api/products/', true)
 
 //function to render through total qty and total price
@@ -36,6 +38,7 @@ function removeItem (id, color){
 // function to update cart total when quantity of a product is changed
 function updateCart(event, id, color){
     const newValue = event.target.value;
+
     for (let i = 0; i < cart.length; i++){
       if(cart[i].id === id && cart[i].color === color){
         cart[i].productQuantity = newValue;
@@ -48,12 +51,13 @@ function updateCart(event, id, color){
   
 }
 
+// Function to render all the products in the cart
 function renderCart(cart, data){
     
     if (request.status >= 200 && request.status < 400) {
        // Loop to post all the products in the cart
        cart.forEach((product) => {            
-        // Method to find back product's proprieties which are not passed by localStorage
+        // Method to find out product's proprieties which are not passed by localStorage
            let productRecover = data.find((el) => el._id === product.id);
 
            let article = {
@@ -64,10 +68,10 @@ function renderCart(cart, data){
             altText: productRecover.altTxt,
             quantity: product.productQuantity,
             price: productRecover.price
-           };          
+           }; 
+
         // Inserting selected items into the DOM
             const section = document.getElementById('cart__items');
-
             article = document.createElement('article');
             article.classList.add('cart__item');
             article.setAttribute('data-id', product.id)
@@ -133,7 +137,8 @@ function renderCart(cart, data){
             deleteProduct.classList.add('deleteItem')
             deleteProduct.textContent = 'Delete'
             itemContentSettingsDelete.appendChild(deleteProduct)
-            
+
+          //Adding click eventListener to 'Delete' button  
             deleteProduct.addEventListener("click" , () => {
                let targetArticle = deleteProduct.closest("article");
                let id = targetArticle.dataset.id;
@@ -144,12 +149,9 @@ function renderCart(cart, data){
               renderCartTotal();
               
           })
-                
-            
-            
+                      
         });  
-        
-       
+             
         renderCartTotal();
     }else {
         const errorMessage = document.createElement('behavior')
@@ -159,8 +161,10 @@ function renderCart(cart, data){
     }
     
 }
+
 let productData;
 request.onload = function () {
+
   // Begin accessing JSON data here
   let data = JSON.parse(this.response)
  productData = data;
@@ -272,7 +276,7 @@ orderButton.addEventListener ('click', ($event) => {
         }
 });
 
-// make function for the POST request
+// Make function for the POST request
 function makeRequest(data) {
     return new Promise((resolve, reject) => {
       let request = new XMLHttpRequest();
