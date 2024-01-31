@@ -7,7 +7,13 @@ This is the front end and back end server for Project 5 of the Web Developer pat
 
 We assume we have a client called "Kanap", a furniture company which sells its products from their physical shop only. The company would now like to add an online store to its physical shop in order to sell its products on the Internet.
 
-My task is to work on frontend side after static pages have been created using HTML and CSS, I need to code the dynamic elements using vanilla JS(No framework) and the API.
+My task is to work on frontend side after static pages have been created using HTML and CSS, I need to code the dynamic elements using vanilla JS(No framework) and the API.<br>
+
+The Project contains four pages:<br>
+the homepage;<br>
+the product page;<br>
+the cart page;<br>
+the confirmation page
 
 ### To run this project:###
 
